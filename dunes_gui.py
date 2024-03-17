@@ -120,18 +120,37 @@ class DunesApp(QMainWindow):
 
     def deployDune(self):
         # Run subprocess to deploy Dune
-        # Still need to add the necessary parameters for deploying Dune
-        pass
+        # Get input values for deployment
+        dune_name, ok1 = QInputDialog.getText(self, 'Deploy Dune', 'Enter Dune name:')
+        blocks, ok2 = QInputDialog.getInt(self, 'Deploy Dune', 'Enter blocks:')
+        limit_per_mint, ok3 = QInputDialog.getInt(self, 'Deploy Dune', 'Enter limit per mint:')
+        timestamp_deadline, ok4 = QInputDialog.getInt(self, 'Deploy Dune', 'Enter timestamp deadline:')
+        decimals, ok5 = QInputDialog.getInt(self, 'Deploy Dune', 'Enter decimals:')
+        symbol, ok6 = QInputDialog.getText(self, 'Deploy Dune', 'Enter symbol:')
+        mint_self, ok7 = QInputDialog.getText(self, 'Deploy Dune', 'Enter mint self:')
+        is_open, ok8 = QInputDialog.getText(self, 'Deploy Dune', 'Enter is open:')
+        if ok1 and ok2 and ok3 and ok4 and ok5 and ok6 and ok7 and ok8:
+            command = ["node", "C:/Doginals-main/Dunes-main/dunes.js", "deployOpenDune", dune_name, str(blocks), str(limit_per_mint), str(timestamp_deadline), str(decimals), symbol, mint_self, is_open]
+            self.runSubprocess(command)
 
     def mintDune(self):
         # Run subprocess to mint Dune
-        # Still need to add the necessary parameters for minting Dune
-        pass
+        # Get input values for minting
+        dune_id, ok1 = QInputDialog.getText(self, 'Mint Dune', 'Enter Dune ID:')
+        amount, ok2 = QInputDialog.getInt(self, 'Mint Dune', 'Enter amount:')
+        to_address, ok3 = QInputDialog.getText(self, 'Mint Dune', 'Enter to address:')
+        if ok1 and ok2 and ok3:
+            self.runSubprocess(["node", "C:/Doginals-main/Dunes-main/dunes.js", "mintDune", dune_id, str(amount), to_address])
 
     def massMintDune(self):
         # Run subprocess for mass minting Dune
-        # Still need to add the necessary parameters for mass minting Dune
-        pass
+        # Get input values for mass minting
+        dune_id, ok1 = QInputDialog.getText(self, 'Mass Mint Dune', 'Enter Dune ID:')
+        amount, ok2 = QInputDialog.getInt(self, 'Mass Mint Dune', 'Enter amount:')
+        num_mints, ok3 = QInputDialog.getInt(self, 'Mass Mint Dune', 'Enter number of mints:')
+        to_address, ok4 = QInputDialog.getText(self, 'Mass Mint Dune', 'Enter to address:')
+        if ok1 and ok2 and ok3 and ok4:
+            self.runSubprocess(["node", "C:/Doginals-main/Dunes-main/dunes.js", "massMintDune", dune_id, str(amount), str(num_mints), to_address])
 
     def printDuneBalance(self):
         # Run subprocess to print Dune balance
@@ -140,13 +159,24 @@ class DunesApp(QMainWindow):
 
     def splitDunes(self):
         # Run subprocess to split Dunes
-        # Still need to add the necessary parameters for splitting Dunes
-        pass
+        # Get input values for splitting Dunes
+        txhash, ok1 = QInputDialog.getText(self, 'Split Send Dunes', 'Enter txhash:')
+        vout, ok2 = QInputDialog.getText(self, 'Split Send Dunes', 'Enter vout:')
+        dune, ok3 = QInputDialog.getText(self, 'Split Send Dunes', 'Enter dune:')
+        decimals, ok4 = QInputDialog.getInt(self, 'Split Send Dunes', 'Enter decimals:')
+        amounts, ok5 = QInputDialog.getText(self, 'Split Send Dunes', 'Enter amounts:')
+        addresses, ok6 = QInputDialog.getText(self, 'Split Send Dunes', 'Enter addresses (comma-separated):')
+        if ok1 and ok2 and ok3 and ok4 and ok5 and ok6:
+            self.runSubprocess(["node", "C:/Doginals-main/Dunes-main/dunes.js", "splitSendDunes", txhash, vout, dune, str(decimals), amounts, addresses])
 
     def SendCombineDunes(self):
-        # Run subprocess to combine Dunes
-        # Still need to add the necessary parameters for combining Dunes
-        pass
+        # Run subprocess to send or combine Dunes
+        # Get input values for sending or combining Dunes
+        address, ok1 = QInputDialog.getText(self, 'Send or Combine Dunes', 'Enter address:')
+        utxo_amount, ok2 = QInputDialog.getInt(self, 'Send or Combine Dunes', 'Enter utxo amount:')
+        dune, ok3 = QInputDialog.getText(self, 'Send or Combine Dunes', 'Enter dune:')
+        if ok1 and ok2 and ok3:
+            self.runSubprocess(["node", "C:/Doginals-main/Dunes-main/dunes.js", "sendCombineDunes", address, str(utxo_amount), dune])
 
 if __name__ == "__main__":
     app = QApplication([])
