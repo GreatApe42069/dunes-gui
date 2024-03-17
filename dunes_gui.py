@@ -37,18 +37,20 @@ class DunesApp(QMainWindow):
         # Create buttons for each command
         self.btnWalletNew = QPushButton('Generate Wallet', self)
         self.btnWalletSync = QPushButton('Sync Wallet', self)
+        self.btnPrintSafeUtxos = QPushButton('Print Safe UTXOs', self)
         self.btnWalletSplit = QPushButton('Split Wallet', self)
         self.btnWalletSend = QPushButton('Send Funds', self)
         self.btnDeployDune = QPushButton('Deploy Dune', self)
         self.btnMintDune = QPushButton('Mint Dune', self)
         self.btnBatchMintDune = QPushButton('Mass Mint Dune', self)
         self.btnPrintDuneBalance = QPushButton('Print Dune Balance', self)
-        self.btnSendDuneMulti = QPushButton('Split Dunes', self)
-        self.btnSendDunesNoProtocol = QPushButton('Combine Dunes', self)
+        self.btnSendDuneMulti = QPushButton('Split Send Dunes', self)
+        self.btnSendDunesNoProtocol = QPushButton('Send or Combine Dunes', self)
 
         # Connect buttons to functions
         self.btnWalletNew.clicked.connect(self.generateWallet)
         self.btnWalletSync.clicked.connect(self.syncWallet)
+        self.btnPrintSafeUtxos.clicked.connect(self.printSafeUtxos)
         self.btnWalletSplit.clicked.connect(self.splitWallet)
         self.btnWalletSend.clicked.connect(self.sendFunds)
         self.btnDeployDune.clicked.connect(self.deployDune)
@@ -56,12 +58,13 @@ class DunesApp(QMainWindow):
         self.btnBatchMintDune.clicked.connect(self.massMintDune)
         self.btnPrintDuneBalance.clicked.connect(self.printDuneBalance)
         self.btnSendDuneMulti.clicked.connect(self.splitDunes)
-        self.btnSendDunesNoProtocol.clicked.connect(self.combineDunes)
+        self.btnSendDunesNoProtocol.clicked.connect(self.SendCombineDunes)
 
         # Create layout
         layout = QVBoxLayout()
         layout.addWidget(self.btnWalletNew)
         layout.addWidget(self.btnWalletSync)
+        layout.addWidget(self.btnPrintSafeUtxos)
         layout.addWidget(self.btnWalletSplit)
         layout.addWidget(self.btnWalletSend)
         layout.addWidget(self.btnDeployDune)
@@ -88,7 +91,7 @@ class DunesApp(QMainWindow):
 
     def handleSubprocessFinished(self):
         # This slot is called when the subprocess thread finishes
-        # You can update the UI or perform other tasks here
+        # We can update the UI or perform other tasks here
         # For simplicity, we won't handle specific actions here
         pass
 
@@ -99,6 +102,10 @@ class DunesApp(QMainWindow):
     def syncWallet(self):
         # Run subprocess to sync wallet
         self.runSubprocess(["node", "dunes.js", "wallet", "sync"])
+
+    def printSafeUtxos(self):
+        # Run subprocess to print safe utxos
+        self.runSubprocess(["node", "dunes.js", "printSafeUtxos"])
 
     def splitWallet(self):
         # Run subprocess to split wallet
@@ -115,32 +122,32 @@ class DunesApp(QMainWindow):
 
     def deployDune(self):
         # Run subprocess to deploy Dune
-        # Need to still add the necessary parameters for deployment
+        # Still need to add the necessary parameters for combining Dunes
         pass
 
     def mintDune(self):
         # Run subprocess to mint Dune
-        # Need to still add the necessary parameters for deployment
+        # Still need to add the necessary parameters for combining Dunes
         pass
 
     def massMintDune(self):
         # Run subprocess for mass minting Dune
-        # Need to still add the necessary parameters for deployment
+        # Still need to add the necessary parameters for combining Dunes
         pass
 
     def printDuneBalance(self):
         # Run subprocess to print Dune balance
-        # Need to still add the necessary parameters for deployment
-        pass
+        # Still need to finish the necessary parameters for printing balance including catching and displaying the Dunes balance
+            self.runSubprocess(["node", "dunes.js", "printDunes"])
 
     def splitDunes(self):
         # Run subprocess to split Dunes
-        # Need to still add the necessary parameters for deployment
+        # Still need to add the necessary parameters for combining Dunes
         pass
 
-    def combineDunes(self):
+    def SendCombineDunes(self):
         # Run subprocess to combine Dunes
-        # Need to still add the necessary parameters for deployment
+        # Still need to add the necessary parameters for combining Dunes
         pass
 
 if __name__ == "__main__":
