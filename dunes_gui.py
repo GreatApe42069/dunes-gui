@@ -1,10 +1,10 @@
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QWidget, QInputDialog
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QWidget, QInputDialog, QMessageBox
 from PyQt5.QtCore import QThread, pyqtSignal
 import subprocess
 import sys
 
 class SubprocessThread(QThread):
-    finished = pyqtSignal()
+    finished = pyqtSignal(str)
 
     def __init__(self, command, input_data=""):
         super().__init__()
@@ -15,11 +15,10 @@ class SubprocessThread(QThread):
         try:
             process = subprocess.Popen(self.command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
             stdout, stderr = process.communicate(input=self.input_data.encode())
-            self.output = stdout.decode() + stderr.decode()
+            output = stdout.decode() + stderr.decode()
+            self.finished.emit(output)
         except Exception as e:
-            print(f"Error running subprocess: {e}")
-        finally:
-            self.finished.emit()
+            self.finished.emit(f"Error running subprocess: {e}")
 
 class DunesApp(QMainWindow):
     def __init__(self):
@@ -58,7 +57,7 @@ class DunesApp(QMainWindow):
         self.btnBatchMintDune.clicked.connect(self.massMintDune)
         self.btnPrintDuneBalance.clicked.connect(self.printDuneBalance)
         self.btnSendDuneMulti.clicked.connect(self.splitDunes)
-        self.btnSendDunesNoProtocol.clicked.connect(self.sendCombineDunes)
+        self.btnSendDunesNoProtocol.clicked.connect(self.SendCombineDunes)
 
         # Create layout
         layout = QVBoxLayout()
@@ -89,63 +88,62 @@ class DunesApp(QMainWindow):
         self.thread.finished.connect(self.handleSubprocessFinished)
         self.thread.start()
 
-    def handleSubprocessFinished(self):
+    def handleSubprocessFinished(self, output):
         # This slot is called when the subprocess thread finishes
-        # We can update the UI or perform other tasks here
-        # For simplicity, we won't handle specific actions here
-        pass
+        # Display the output in a message box
+        QMessageBox.information(self, "Output", output)
 
     def generateWallet(self):
         # Run subprocess to generate wallet
-        self.runSubprocess(["node", "dunes.js", "wallet", "new"])
+        self.runSubprocess(["node", "C:/Doginals-main/Dunes-main/dunes.js", "wallet", "new"])
 
     def syncWallet(self):
         # Run subprocess to sync wallet
-        self.runSubprocess(["node", "dunes.js", "wallet", "sync"])
+        self.runSubprocess(["node", "C:/Doginals-main/Dunes-main/dunes.js", "wallet", "sync"])
 
     def printSafeUtxos(self):
         # Run subprocess to print safe utxos
-        self.runSubprocess(["node", "dunes.js", "printSafeUtxos"])
+        self.runSubprocess(["node", "C:/Doginals-main/Dunes-main/dunes.js", "printSafeUtxos"])
 
     def splitWallet(self):
         # Run subprocess to split wallet
         splits, ok = QInputDialog.getInt(self, 'Split Wallet', 'Enter the number of splits:')
         if ok:
-            self.runSubprocess(["node", "dunes.js", "wallet", "split", str(splits)])
+            self.runSubprocess(["node", "C:/Doginals-main/Dunes-main/dunes.js", "wallet", "split", str(splits)])
 
     def sendFunds(self):
         # Run subprocess to send funds
         address, ok1 = QInputDialog.getText(self, 'Send Funds', 'Enter the recipient address:')
         amount, ok2 = QInputDialog.getText(self, 'Send Funds', 'Enter the amount:')
         if ok1 and ok2:
-            self.runSubprocess(["node", "dunes.js", "wallet", "send", address, amount])
+            self.runSubprocess(["node", "C:/Doginals-main/Dunes-main/dunes.js", "wallet", "send", address, amount])
 
     def deployDune(self):
         # Run subprocess to deploy Dune
-        # Still need to add the necessary parameters for combining Dunes
+        # Still need to add the necessary parameters for deploying Dune
         pass
 
     def mintDune(self):
         # Run subprocess to mint Dune
-        # Still need to add the necessary parameters for combining Dunes
+        # Still need to add the necessary parameters for minting Dune
         pass
 
     def massMintDune(self):
         # Run subprocess for mass minting Dune
-        # Still need to add the necessary parameters for combining Dunes
+        # Still need to add the necessary parameters for mass minting Dune
         pass
 
     def printDuneBalance(self):
         # Run subprocess to print Dune balance
         # Still need to finish the necessary parameters for printing balance including catching and displaying the Dunes balance
-            self.runSubprocess(["node", "dunes.js", "printDunes"])
+        self.runSubprocess(["node", "C:/Doginals-main/Dunes-main/dunes.js", "printDunes"])
 
     def splitDunes(self):
         # Run subprocess to split Dunes
-        # Still need to add the necessary parameters for combining Dunes
+        # Still need to add the necessary parameters for splitting Dunes
         pass
 
-    def sendCombineDunes(self):
+    def SendCombineDunes(self):
         # Run subprocess to combine Dunes
         # Still need to add the necessary parameters for combining Dunes
         pass
