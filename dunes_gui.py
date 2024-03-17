@@ -58,7 +58,7 @@ class DunesApp(QMainWindow):
         self.btnBatchMintDune.clicked.connect(self.massMintDune)
         self.btnPrintDuneBalance.clicked.connect(self.printDuneBalance)
         self.btnSendDuneMulti.clicked.connect(self.splitDunes)
-        self.btnSendDunesNoProtocol.clicked.connect(self.SendCombineDunes)
+        self.btnSendDunesNoProtocol.clicked.connect(self.sendCombineDunes)
 
         # Create layout
         layout = QVBoxLayout()
@@ -145,7 +145,7 @@ class DunesApp(QMainWindow):
         # Still need to add the necessary parameters for combining Dunes
         pass
 
-    def SendCombineDunes(self):
+    def sendCombineDunes(self):
         # Run subprocess to combine Dunes
         # Still need to add the necessary parameters for combining Dunes
         pass
