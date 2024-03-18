@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QWidget, QInputDialog, QMessageBox
 from PyQt5.QtCore import QThread, pyqtSignal
+from PyQt5.QtGui import QIcon
 import subprocess
 import sys
 
@@ -26,6 +27,9 @@ class DunesApp(QMainWindow):
 
         self.setWindowTitle('Dunes Simplified Interface')
         self.setGeometry(100, 100, 800, 600)
+
+        # Set window icon
+        self.setWindowIcon(QIcon('C:\\Doginals-main\\Dunes-main\\Dunes GUI\\IMG_155.png'))
 
         # Initialize thread
         self.thread = None
