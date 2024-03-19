@@ -78,7 +78,7 @@ Creates a New wallet in your Dogecoin node
 You can enter the key and address for the wallet you would like to use.
 
 
-** Print Safe UTXOs:* 
+**Print Safe UTXOs:* 
 Command to print UTXOs in your wallet that are safe to spend.
 
 **Split Wallet:**
@@ -120,7 +120,7 @@ Example:
 **Print Dune Balance:**
 Check the Dunes in your wallet
 
-** Split Send Dunes:**
+**Split Send Dunes:**
 Split dunes from one output to many:
 
 <txhash> <vout> <dune> <decimals> <amounts> <addresses>
