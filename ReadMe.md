@@ -44,22 +44,22 @@ Close the Application: Once you've completed your tasks, you can close the appli
 
 Click File button to set `.env` file for fees, you can change every setting but its recommended to leave the env file as follows:
 
-*PROTOCOL_IDENTIFIER=D
+PROTOCOL_IDENTIFIER=D
 NODE_RPC_URL=http://127.0.0.1:22555
 NODE_RPC_USER=rpc_user
 NODE_RPC_PASS=rpc_password
 TESTNET=false
 FEE_PER_KB=100000000
 UNSPENT_API=https://unspent.dogeord.io/api/v1/address/unspent/
-ORD=https://ord.dunesprotocol.com/*
+ORD=https://ord.dunesprotocol.com/
 
 `.wallet.json` should look like this:
 
-*{
+{
   "privkey": "",
   "address": "",
   "utxos": []
-}*
+}
 
 **Generate Wallet:**
 Creates a New wallet in your Dogecoin node
