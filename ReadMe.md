@@ -11,9 +11,19 @@ Print Dune balances
 Simplified interface for easy navigation
 
 ## Requirements
+Create Working Directory: The GUI exe should be saved in a file path you Create:
+ 
+`C:\Dunes-GUI`
+
+Along with blank `.wallet.json` file and a copy of the Dunes acceptable  `.env` file that should be all you need.
+
+If you already have dunes and doginals client set up, and and are in filepath named `C:\ Doginals-main\Dunes-main` it will recognize current wallet info particularly in that path and it adds your current dunes minting wallet info from your `.wallet.json`, this is for people already minting both. For everyone not set up and just running a node and wallet funded with doge you can add your `.wallet.json` key and address in the GUI, and a created directory.
+
 Active Dunes Node: Before using the Dunes GUI, ensure that you have an active Dunes node running on your system. The GUI interacts with the Dunes Protocol through this node.
 
 Dogecoin: The Dunes Protocol is built on top of Dogecoin, so make sure you have a basic understanding of Dogecoin and its functionalities.
+
+*Note: It does make commands through operating system dealing with the node.js and dunes and doginals scripts. Because of that dependency it flags microsoft defender, so I noticed when I dowloaded file from Github, it got flagged so I had to adjust the windows defender bypass setting to let it through.
 
 ## Usage
 **Download the Executable: Download the executable file (dunes_gui.exe for Windows) from the provided source.**
