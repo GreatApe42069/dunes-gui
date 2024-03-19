@@ -23,7 +23,7 @@ Active Dunes Node: Before using the Dunes GUI, ensure that you have an active Du
 
 Dogecoin: The Dunes Protocol is built on top of Dogecoin, so make sure you have a basic understanding of Dogecoin and its functionalities.
 
-*Note: It does make commands through operating system dealing with the node.js and dunes and doginals scripts. Because of that dependency it flags microsoft defender, so I noticed when I dowloaded file from Github, it got flagged so I had to adjust the windows defender bypass setting to let it through.
+*Note: It does make commands through operating system dealing with the node.js and dunes and doginals scripts. Because of that dependency it flags microsoft defender, so I noticed when I dowloaded file from Github, it got flagged so I had to adjust the windows defender bypass setting to let it through.*
 
 ## Usage
 **Download the Executable: Download the executable file (dunes_gui.exe for Windows) from the provided source.**
