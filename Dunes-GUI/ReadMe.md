@@ -35,7 +35,7 @@ If you'd like to contribute or donate to our projects, please donate in Dogecoin
 
 If You would like to support with Donations, Send all Dogecoin tothe following Contributors:
 
-"handle": "Great Ape" "at": "@Greatape42069E" "dogecoin_address": "DBpLvNcR1Zj8B6dKJp4n3XEAT4FmRxbnJb"
+"handle": "Great Ape" "at": "@Greatape42069E" "dogecoin_address": "D9pqzxiiUke5eodEzMmxZAxpFcbvwuM4Hg"
 
 ## License
 This project is licensed under the MIT License.
