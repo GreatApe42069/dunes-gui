@@ -49,7 +49,8 @@ class DunesApp(QMainWindow):
         self.btnDeployDune = QPushButton('Deploy Dune', self)
         self.btnMintDune = QPushButton('Mint Dune', self)
         self.btnBatchMintDune = QPushButton('Mass Mint Dune', self)
-        self.btnPrintDuneBalance = QPushButton('Print Dune Balance', self)
+        self.btnPrintDunes = QPushButton('Print Dunes From Active Wallet', self)
+        self.btnPrintDuneBalance = QPushButton('Print Dune Balance by Entering Address', self)
         self.btnSendDuneMulti = QPushButton('Split Send Dunes', self)
         self.btnSendDunesNoProtocol = QPushButton('Send or Combine Dunes', self)
 
@@ -62,6 +63,7 @@ class DunesApp(QMainWindow):
         self.btnDeployDune.clicked.connect(self.deployDune)
         self.btnMintDune.clicked.connect(self.mintDune)
         self.btnBatchMintDune.clicked.connect(self.massMintDune)
+        self.btnPrintDunes.clicked.connect(self.printDunes)
         self.btnPrintDuneBalance.clicked.connect(self.printDuneBalance)
         self.btnSendDuneMulti.clicked.connect(self.splitDunes)
         self.btnSendDunesNoProtocol.clicked.connect(self.sendCombineDunes)
@@ -97,6 +99,7 @@ class DunesApp(QMainWindow):
         layout.addWidget(self.btnDeployDune)
         layout.addWidget(self.btnMintDune)
         layout.addWidget(self.btnBatchMintDune)
+        layout.addWidget(self.btnPrintDunes)
         layout.addWidget(self.btnPrintDuneBalance)
         layout.addWidget(self.btnSendDuneMulti)
         layout.addWidget(self.btnSendDunesNoProtocol)
@@ -272,9 +275,18 @@ class DunesApp(QMainWindow):
         if ok1 and ok2 and ok3 and ok4:
             self.runSubprocess(["node", "C:/Dunes-GUI/Doginals-main/Dunes-main/dunes.js", "massMintDune", dune_name, str(amount), str(limit_per_mint), to_address])
 
+    def printDunes(self):
+        # Run subprocess to print Dunes
+        self.runSubprocess(["node", "C:/Dunes-GUI/Doginals-main/Dunes-main/dunes.js", "printDunes"])
+
     def printDuneBalance(self):
-        # Run subprocess to print Dune balance
-        self.runSubprocess(["node", "C:/Dunes-GUI/Doginals-main/Dunes-main/dunes.js", "printDuneBalance"])
+        # Get input values for checking Dune balance
+        dune_name, ok1 = QInputDialog.getText(self, 'Check Dune Balance', 'Enter Dune Name:')
+        address, ok2 = QInputDialog.getText(self, 'Check Dune Balance', 'Enter Address:')
+        
+        if ok1 and ok2:
+            # Run subprocess to check Dune balance
+            self.runSubprocess(["node", "C:/Dunes-GUI/Doginals-main/Dunes-main/dunes.js", "printDuneBalance", dune_name, address])
 
     def splitDunes(self):
         # Run subprocess to split Dunes
