@@ -201,3 +201,9 @@ If You would like to support with Donations, Send all Dogecoin tothe following C
 ## License
 
 This project is licensed under the MIT License.
+
+![image](https://github.com/GreatApe42069/dunes-gui/assets/153969184/660b391f-df98-4977-b1e3-7b7655ad48c6)
+
+
+
+![image](https://github.com/GreatApe42069/dunes-gui/assets/153969184/a9b433e3-0b35-4b01-8310-dac6bdd86987)
