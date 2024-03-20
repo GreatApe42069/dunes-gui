@@ -28,7 +28,7 @@ class DunesApp(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle('Dunes Simplified Interface')
+        self.setWindowTitle('Dunes Simplified User Interface')
         self.setGeometry(100, 100, 800, 600)
 
         # Set window icon
@@ -40,8 +40,11 @@ class DunesApp(QMainWindow):
         self.initUI()
 
     def initUI(self):
+        # Create layout
+        layout = QVBoxLayout()
+
         # Create buttons for each command
-        self.btnWalletNew = QPushButton('Generate Wallet', self)
+        self.btnWalletNew = QPushButton('Generate New Wallet to node', self)
         self.btnWalletSync = QPushButton('Sync Wallet', self)
         self.btnPrintSafeUtxos = QPushButton('Print Safe UTXOs', self)
         self.btnWalletSplit = QPushButton('Split Wallet', self)
@@ -68,29 +71,12 @@ class DunesApp(QMainWindow):
         self.btnSendDuneMulti.clicked.connect(self.splitDunes)
         self.btnSendDunesNoProtocol.clicked.connect(self.sendCombineDunes)
 
-        # Create dropdown for wallet management options
-        self.lblWalletOptions = QLabel('Wallet Management Options:')
-        self.cmbWalletOptions = QComboBox(self)
-        self.cmbWalletOptions.addItem('Existing Wallet')
-        self.cmbWalletOptions.addItem('New Wallet')
-        self.cmbWalletOptions.addItem('Enter Private Key and Address')
+        # Create button for custom wallet prompt
+        self.btnCustomWallet = QPushButton('Enter Private Key and Address', self)
+        self.btnCustomWallet.clicked.connect(self.promptAndSaveCustomWallet)
 
-        # Connect dropdown signal
-        self.cmbWalletOptions.currentIndexChanged.connect(self.handleWalletOptionChanged)
-
-        # Create menu bar
-        menubar = self.menuBar()
-        fileMenu = menubar.addMenu('&File')
-
-        # Add submenu for .env file
-        env_action = QAction('&Set .env File', self)
-        env_action.triggered.connect(self.setEnvFile)
-        fileMenu.addAction(env_action)
-
-        # Create layout
-        layout = QVBoxLayout()
-        layout.addWidget(self.lblWalletOptions)
-        layout.addWidget(self.cmbWalletOptions)
+        # Add buttons to layout
+        layout.addWidget(self.btnCustomWallet)
         layout.addWidget(self.btnWalletNew)
         layout.addWidget(self.btnWalletSync)
         layout.addWidget(self.btnPrintSafeUtxos)
@@ -108,6 +94,19 @@ class DunesApp(QMainWindow):
         central_widget = QWidget()
         central_widget.setLayout(layout)
         self.setCentralWidget(central_widget)
+
+        # Create menu bar
+        menubar = self.menuBar()
+        fileMenu = menubar.addMenu('&File')
+
+        # Add submenu for .env file
+        env_action = QAction('&Set .env File', self)
+        env_action.triggered.connect(self.setEnvFile)
+        fileMenu.addAction(env_action)
+
+        # Check for existing wallet file and sync if found
+        self.checkExistingWalletFile()
+        self.syncWallet()
 
     def checkExistingWalletFile(self):
         # Define paths
@@ -131,17 +130,6 @@ class DunesApp(QMainWindow):
             # If no wallet found, inform the user
             print("No existing wallet found in the default path.")
             QMessageBox.warning(self, "Sync Wallet", "No existing wallet found in the default path.")
-            self.lblWalletOptions.setText('No Existing Wallet Found. Would you like to Create a New Wallet or Add Private Key and Address?:')
-            self.cmbWalletOptions.setEnabled(False)
-            self.btnWalletSync.setEnabled(False)
-
-    def handleWalletOptionChanged(self, index):
-        if index == 0:  # Existing Wallet
-            self.checkExistingWalletFile()
-        elif index == 1:  # New Wallet
-            self.generateWallet()
-        elif index == 2:  # Enter Private Key and Address
-            self.promptAndSaveCustomWallet()
 
     def setEnvFile(self):
         # Get input values for setting .env file
@@ -289,20 +277,33 @@ class DunesApp(QMainWindow):
             self.runSubprocess(["node", "C:/Dunes-GUI/Doginals-main/Dunes-main/dunes.js", "printDuneBalance", dune_name, address])
 
     def splitDunes(self):
-        # Run subprocess to split Dunes
         # Get input values for splitting Dunes
-        to_address, ok1 = QInputDialog.getText(self, 'Split Dunes', 'Enter to address:')
-        amount, ok2 = QInputDialog.getInt(self, 'Split Dunes', 'Enter amount:')
-        if ok1 and ok2:
-            self.runSubprocess(["node", "C:/Dunes-GUI/Doginals-main/Dunes-main/dunes.js", "sendDune", to_address, str(amount)])
+        txhash, ok1 = QInputDialog.getText(self, 'Split Dunes', 'Enter transaction hash:')
+        vout, ok2 = QInputDialog.getInt(self, 'Split Dunes', 'Enter vout:')
+        dune, ok3 = QInputDialog.getText(self, 'Split Dunes', 'Enter Dune name:')
+        decimals, ok4 = QInputDialog.getInt(self, 'Split Dunes', 'Enter decimals:')
+        amounts, ok5 = QInputDialog.getText(self, 'Split Dunes', 'Enter amounts (comma-separated):')
+        addresses, ok6 = QInputDialog.getText(self, 'Split Dunes', 'Enter addresses (comma-separated):')
+
+        if ok1 and ok2 and ok3 and ok4 and ok5 and ok6:
+            # Split amounts and addresses by comma
+            amounts_list = amounts.split(',')
+            addresses_list = addresses.split(',')
+
+            # Run subprocess to split Dunes
+            command = ["node", "C:/Dunes-GUI/Doginals-main/Dunes-main/dunes.js", "sendDuneMulti", txhash, str(vout), dune, str(decimals), ','.join(amounts_list), ','.join(addresses_list)]
+            self.runSubprocess(command)
 
     def sendCombineDunes(self):
         # Run subprocess to send or combine Dunes
         # Get input values for sending or combining Dunes
-        address, ok1 = QInputDialog.getText(self, 'Send/Combine Dunes', 'Enter address:')
-        amount, ok2 = QInputDialog.getInt(self, 'Send/Combine Dunes', 'Enter amount:')
-        if ok1 and ok2:
-            self.runSubprocess(["node", "C:/Dunes-GUI/Doginals-main/Dunes-main/dunes.js", "send", address, str(amount)])
+        address, ok1 = QInputDialog.getText(self, 'Send/Combine Dunes', 'Enter Address:')
+        amount, ok2 = QInputDialog.getInt(self, 'Send/Combine Dunes', 'Enter Amount:')
+        dune_name, ok3 = QInputDialog.getText(self, 'Send/Combine Dunes', 'Enter Dune Name:')  # Corrected variable name
+        if ok1 and ok2 and ok3:
+            command = ["node", "C:/Dunes-GUI/Doginals-main/Dunes-main/dunes.js", "sendDunesNoProtocol", address, str(amount), dune_name]
+            # Redirect standard input to send "Y" automatically
+            self.runSubprocess(command, input_data="Y\n")
 
     def promptAndSaveCustomWallet(self):
         # Prompt user for private key and address
@@ -325,9 +326,10 @@ class DunesApp(QMainWindow):
             
             # Inform user that wallet was successfully added
             QMessageBox.information(self, "Wallet Added", "Wallet Successfully Added")
+            self.syncWallet()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ex = DunesApp()
+    ex = DunesApp()  # Corrected instantiation
     ex.show()
     sys.exit(app.exec_())
