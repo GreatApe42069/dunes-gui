@@ -65,7 +65,7 @@ class DunesApp(QMainWindow):
         self.btnWalletSend.clicked.connect(self.sendFunds)
         self.btnDeployDune.clicked.connect(self.deployDune)
         self.btnMintDune.clicked.connect(self.mintDune)
-        self.btnBatchMintDune.clicked.connect(self.massMintDune)
+        self.btnBatchMintDune.clicked.connect(self.batchMintDune)
         self.btnPrintDunes.clicked.connect(self.printDunes)
         self.btnPrintDuneBalance.clicked.connect(self.printDuneBalance)
         self.btnSendDuneMulti.clicked.connect(self.splitDunes)
@@ -248,20 +248,20 @@ class DunesApp(QMainWindow):
         # Run subprocess to mint Dune
         # Get input values for minting
         dune_id, ok1 = QInputDialog.getText(self, 'Mint Dune', 'Enter Dune ID:')
-        amount, ok2 = QInputDialog.getInt(self, 'Mint Dune', 'Enter amount:')
+        amount, ok2 = QInputDialog.getInt(self, 'Mint Dune', 'Enter Limit Per Mint Amount:')
         to_address, ok3 = QInputDialog.getText(self, 'Mint Dune', 'Enter to address:')
         if ok1 and ok2 and ok3:
             self.runSubprocess(["node", "C:/Dunes-GUI/Doginals-main/Dunes-main/dunes.js", "mintDune", dune_id, str(amount), to_address])
 
-    def massMintDune(self):
+    def batchMintDune(self):
         # Run subprocess for mass minting Dune
         # Get input values for mass minting
-        dune_name, ok1 = QInputDialog.getText(self, 'Mass Mint Dune', 'Enter Dune name:')
-        amount, ok2 = QInputDialog.getInt(self, 'Mass Mint Dune', 'Enter amount:')
-        limit_per_mint, ok3 = QInputDialog.getInt(self, 'Mass Mint Dune', 'Enter limit per mint:')
+        dune_id, ok1 = QInputDialog.getText(self, 'Mass Mint Dune', 'Enter Dune ID:')
+        limit_per_mint, ok2 = QInputDialog.getInt(self, 'Mass Mint Dune', 'Enter Limit Per Mint Amount:')
+        amount, ok3 = QInputDialog.getInt(self, 'Mass Mint Dune', 'Enter Amount of Mints You want to be Minted:')
         to_address, ok4 = QInputDialog.getText(self, 'Mass Mint Dune', 'Enter to address:')
         if ok1 and ok2 and ok3 and ok4:
-            self.runSubprocess(["node", "C:/Dunes-GUI/Doginals-main/Dunes-main/dunes.js", "massMintDune", dune_name, str(amount), str(limit_per_mint), to_address])
+            self.runSubprocess(["node", "C:/Dunes-GUI/Doginals-main/Dunes-main/dunes.js", "batchMintDune", dune_id, str(limit_per_mint), str(amount), to_address])
 
     def printDunes(self):
         # Run subprocess to print Dunes
@@ -298,7 +298,7 @@ class DunesApp(QMainWindow):
         # Run subprocess to send or combine Dunes
         # Get input values for sending or combining Dunes
         address, ok1 = QInputDialog.getText(self, 'Send/Combine Dunes', 'Enter Address:')
-        amount, ok2 = QInputDialog.getInt(self, 'Send/Combine Dunes', 'Enter Amount:')
+        amount, ok2 = QInputDialog.getInt(self, 'Send/Combine Dunes', 'Enter Amount to Send:')
         dune_name, ok3 = QInputDialog.getText(self, 'Send/Combine Dunes', 'Enter Dune Name:')  # Corrected variable name
         if ok1 and ok2 and ok3:
             command = ["node", "C:/Dunes-GUI/Doginals-main/Dunes-main/dunes.js", "sendDunesNoProtocol", address, str(amount), dune_name]

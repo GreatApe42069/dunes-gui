@@ -83,7 +83,7 @@ node dunes.js mintDune '5132520/31' 100000000 D9UcJkdirVLY11UtF77WnC8peg6xRYsogu
 
 -TRY•EVEN•HARDER
 
-node dunes.js mintDune '5132387/13' 100000000 DMgAd3S4MfaVm2dw9uavixNCnk5fftvaxq
+node dunes.js mintDune '5132387/13' 100000000 D9UcJkdirVLY11UtF77WnC8peg6xRYsogu
 
 -NODE•RUNNER•ZACH•XD
 
